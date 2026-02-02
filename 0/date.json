@@ -1,0 +1,125 @@
+{
+  "websites": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com",
+      "category": "开发",
+      "description": "代码托管平台",
+      "tags": ["代码", "开源", "协作"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "Google",
+      "url": "https://google.com",
+      "category": "搜索",
+      "description": "搜索引擎",
+      "tags": ["搜索", "信息", "工具"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "MDN Web Docs",
+      "url": "https://developer.mozilla.org",
+      "category": "开发",
+      "description": "Web开发文档",
+      "tags": ["文档", "前端", "学习"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "Cloudflare",
+      "url": "https://cloudflare.com",
+      "category": "开发",
+      "description": "网络服务提供商",
+      "tags": ["CDN", "安全", "网络"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "Stack Overflow",
+      "url": "https://stackoverflow.com",
+      "category": "开发",
+      "description": "编程问答社区",
+      "tags": ["问答", "编程", "帮助"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "YouTube",
+      "url": "https://youtube.com",
+      "category": "视频",
+      "description": "视频分享平台",
+      "tags": ["视频", "娱乐", "学习"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "Gmail",
+      "url": "https://mail.google.com",
+      "category": "邮箱",
+      "description": "谷歌邮箱",
+      "tags": ["邮件", "通讯", "工具"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "Google Drive",
+      "url": "https://drive.google.com",
+      "category": "云存储",
+      "description": "谷歌云存储",
+      "tags": ["存储", "同步", "协作"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "ChatGPT",
+      "url": "https://chat.openai.com",
+      "category": "AI工具",
+      "description": "AI对话助手",
+      "tags": ["AI", "对话", "写作"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "Twitter",
+      "url": "https://twitter.com",
+      "category": "社交",
+      "description": "社交媒体平台",
+      "tags": ["社交", "新闻", "资讯"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "Wikipedia",
+      "url": "https://wikipedia.org",
+      "category": "知识",
+      "description": "在线百科全书",
+      "tags": ["百科", "知识", "学习"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "Bilibili",
+      "url": "https://bilibili.com",
+      "category": "视频",
+      "description": "视频分享社区",
+      "tags": ["视频", "娱乐", "二次元"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "知乎",
+      "url": "https://zhihu.com",
+      "category": "知识",
+      "description": "问答社区",
+      "tags": ["问答", "知识", "分享"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "百度",
+      "url": "https://baidu.com",
+      "category": "搜索",
+      "description": "中文搜索引擎",
+      "tags": ["搜索", "中文", "信息"],
+      "updated": "2024-03-15T10:30:00Z"
+    },
+    {
+      "name": "京东",
+      "url": "https://jd.com",
+      "category": "购物",
+      "description": "在线购物平台",
+      "tags": ["购物", "电商", "零售"],
+      "updated": "2024-03-15T10:30:00Z"
+    }
+  ],
+  "updated": "2024-03-15T10:30:00Z"
+}

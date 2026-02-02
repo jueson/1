@@ -3,250 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>简易导航</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-        
-        body {
-            background: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 5px;
-        }
-        
-        .subtitle {
-            color: #666;
-            font-size: 14px;
-        }
-        
-        .admin-link {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: #007bff;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        
-        .admin-link:hover {
-            background: #0056b3;
-        }
-        
-        .websites-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-        
-        .website-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            text-decoration: none;
-            color: #333;
-            display: block;
-            transition: transform 0.2s, box-shadow 0.2s;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .website-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            border-color: #007bff;
-        }
-        
-        .website-icon {
-            width: 40px;
-            height: 40px;
-            background: #f0f0f0;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
-            color: #007bff;
-            font-size: 18px;
-        }
-        
-        .website-name {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #333;
-        }
-        
-        .website-url {
-            color: #666;
-            font-size: 13px;
-            word-break: break-all;
-        }
-        
-        footer {
-            margin-top: 40px;
-            text-align: center;
-            color: #999;
-            font-size: 14px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e0e0;
-        }
-        
-        @media (max-width: 768px) {
-            .websites-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 15px;
-            }
-            
-            .admin-link {
-                position: static;
-                margin-bottom: 20px;
-                display: inline-block;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            body {
-                padding: 15px;
-            }
-            
-            .websites-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 12px;
-            }
-            
-            .website-card {
-                padding: 15px;
-            }
-        }
-    </style>
+    <title>我的书签</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <a href="/admin" class="admin-link">管理后台</a>
-            <h1>我的导航</h1>
-            <p class="subtitle">点击网站卡片快速访问</p>
+            <h1><i class="fas fa-bookmark"></i> 我的书签收藏</h1>
+            <p class="subtitle">简洁高效的个人书签管理</p>
         </header>
-        
-        <main>
-            <div id="websites-container" class="websites-grid">
-                <!-- 网站卡片将通过JavaScript动态生成 -->
-            </div>
-        </main>
-        
+
+        <div class="bookmarks-container">
+            <!-- 分类和书签会通过JavaScript动态加载 -->
+        </div>
+
         <footer>
-            <p>数据存储在GitHub仓库 • 更新于 <span id="update-time">-</span></p>
+            <p>© <span id="current-year"></span> 个人书签 | 共 <span id="total-bookmarks">0</span> 个书签</p>
+            <p class="tip">提示：访问 /admin 进入管理后台</p>
         </footer>
     </div>
 
+    <script src="script.js"></script>
     <script>
-        // 从GitHub获取数据
-        async function loadData() {
-            try {
-                // 使用GitHub raw content URL
-                // 在实际部署时，需要替换为您的GitHub仓库raw URL
-                const dataUrl = 'data.json'; // 相对路径，与index.html在同一目录
-                
-                const response = await fetch(dataUrl);
-                const data = await response.json();
-                
-                // 渲染网站卡片
-                renderWebsites(data.websites);
-                
-                // 更新更新时间
-                if (data.updated) {
-                    const date = new Date(data.updated);
-                    document.getElementById('update-time').textContent = 
-                        date.toLocaleDateString('zh-CN');
-                }
-            } catch (error) {
-                console.error('加载数据失败:', error);
-                // 使用示例数据
-                loadSampleData();
-            }
-        }
-        
-        // 渲染网站卡片
-        function renderWebsites(websites) {
-            const container = document.getElementById('websites-container');
-            container.innerHTML = '';
-            
-            websites.forEach(site => {
-                // 获取网站域名的第一个字母作为图标
-                let iconText = '';
-                try {
-                    const url = new URL(site.url);
-                    iconText = url.hostname.charAt(0).toUpperCase();
-                } catch {
-                    iconText = site.name.charAt(0);
-                }
-                
-                const card = document.createElement('a');
-                card.className = 'website-card';
-                card.href = site.url;
-                card.target = '_blank';
-                card.rel = 'noopener noreferrer';
-                card.innerHTML = `
-                    <div class="website-icon">${iconText}</div>
-                    <div class="website-name">${site.name}</div>
-                    <div class="website-url">${new URL(site.url).hostname}</div>
-                `;
-                
-                container.appendChild(card);
-            });
-        }
-        
-        // 加载示例数据
-        function loadSampleData() {
-            const sampleData = {
-                websites: [
-                    {name: "GitHub", url: "https://github.com"},
-                    {name: "Google", url: "https://google.com"},
-                    {name: "MDN", url: "https://developer.mozilla.org"},
-                    {name: "Cloudflare", url: "https://cloudflare.com"},
-                    {name: "Stack Overflow", url: "https://stackoverflow.com"},
-                    {name: "YouTube", url: "https://youtube.com"},
-                    {name: "Gmail", url: "https://mail.google.com"},
-                    {name: "Google Drive", url: "https://drive.google.com"},
-                    {name: "ChatGPT", url: "https://chat.openai.com"},
-                    {name: "Twitter", url: "https://twitter.com"},
-                    {name: "Reddit", url: "https://reddit.com"},
-                    {name: "Wikipedia", url: "https://wikipedia.org"}
-                ],
-                updated: new Date().toISOString()
-            };
-            
-            renderWebsites(sampleData.websites);
-            document.getElementById('update-time').textContent = 
-                new Date().toLocaleDateString('zh-CN');
-        }
-        
-        // 页面加载完成后执行
-        document.addEventListener('DOMContentLoaded', loadData);
+        // 设置当前年份
+        document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>
 </body>
 </html>

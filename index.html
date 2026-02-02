@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导航网站 | 资源集合</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/compass--v1.png">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-compass"></i>
+                <h1>资源导航</h1>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="搜索网站...">
+                <button id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+            <nav>
+                <a href="/" class="active">首页</a>
+                <a href="#categories">分类</a>
+                <a href="/admin" id="adminLink"><i class="fas fa-cog"></i> 管理后台</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>发现优质网络资源</h2>
+                <p>精心整理的各类实用网站，助您高效工作与学习</p>
+                <div class="stats">
+                    <div class="stat">
+                        <span id="siteCount">0</span>
+                        <p>收录网站</p>
+                    </div>
+                    <div class="stat">
+                        <span id="categoryCount">0</span>
+                        <p>分类数量</p>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <i class="fas fa-globe-americas"></i>
+            </div>
+        </section>
+
+        <section class="categories" id="categories">
+            <h2><i class="fas fa-list"></i> 分类浏览</h2>
+            <div id="categoryTabs" class="category-tabs">
+                <!-- 分类标签将动态生成 -->
+            </div>
+        </section>
+
+        <section class="websites">
+            <div id="websitesContainer" class="websites-grid">
+                <!-- 网站卡片将动态生成 -->
+            </div>
+            <div id="noResults" class="no-results" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>未找到相关网站</h3>
+                <p>尝试使用其他关键词搜索</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-compass"></i>
+                    <h3>资源导航</h3>
+                </div>
+                <p>基于 GitHub 仓库 + Cloudflare Pages 构建</p>
+                <div class="footer-links">
+                    <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="https://pages.cloudflare.com" target="_blank"><i class="fas fa-cloud"></i> Cloudflare Pages</a>
+                    <a href="/admin"><i class="fas fa-cog"></i> 管理后台</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> 资源导航. 数据存储在 GitHub 仓库中.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

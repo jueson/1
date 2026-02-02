@@ -1,0 +1,121 @@
+{
+  "categories": [
+    {
+      "id": "dev",
+      "name": "开发工具",
+      "color": "#4361ee",
+      "count": 3
+    },
+    {
+      "id": "design",
+      "name": "设计资源",
+      "color": "#3a0ca3",
+      "count": 2
+    },
+    {
+      "id": "productivity",
+      "name": "效率工具",
+      "color": "#4cc9f0",
+      "count": 2
+    },
+    {
+      "id": "learning",
+      "name": "学习平台",
+      "color": "#f72585",
+      "count": 2
+    }
+  ],
+  "websites": [
+    {
+      "id": "1",
+      "name": "GitHub",
+      "url": "https://github.com",
+      "description": "全球最大的代码托管平台",
+      "category": "dev",
+      "tags": ["代码托管", "开源", "协作"],
+      "addedDate": "2023-10-01",
+      "featured": true
+    },
+    {
+      "id": "2",
+      "name": "CodePen",
+      "url": "https://codepen.io",
+      "description": "前端代码在线编辑与分享平台",
+      "category": "dev",
+      "tags": ["前端", "代码示例", "创作"],
+      "addedDate": "2023-10-05",
+      "featured": false
+    },
+    {
+      "id": "3",
+      "name": "MDN Web Docs",
+      "url": "https://developer.mozilla.org",
+      "description": "权威的Web技术文档",
+      "category": "dev",
+      "tags": ["文档", "Web开发", "学习"],
+      "addedDate": "2023-10-10",
+      "featured": true
+    },
+    {
+      "id": "4",
+      "name": "Dribbble",
+      "url": "https://dribbble.com",
+      "description": "设计师创意作品展示平台",
+      "category": "design",
+      "tags": ["设计", "灵感", "作品集"],
+      "addedDate": "2023-09-15",
+      "featured": true
+    },
+    {
+      "id": "5",
+      "name": "Figma",
+      "url": "https://figma.com",
+      "description": "在线协作界面设计工具",
+      "category": "design",
+      "tags": ["UI设计", "协作", "原型"],
+      "addedDate": "2023-09-20",
+      "featured": true
+    },
+    {
+      "id": "6",
+      "name": "Notion",
+      "url": "https://notion.so",
+      "description": "一体化工作区笔记工具",
+      "category": "productivity",
+      "tags": ["笔记", "项目管理", "协作"],
+      "addedDate": "2023-10-12",
+      "featured": false
+    },
+    {
+      "id": "7",
+      "name": "Trello",
+      "url": "https://trello.com",
+      "description": "看板式项目管理工具",
+      "category": "productivity",
+      "tags": ["项目管理", "看板", "协作"],
+      "addedDate": "2023-10-08",
+      "featured": false
+    },
+    {
+      "id": "8",
+      "name": "Coursera",
+      "url": "https://coursera.org",
+      "description": "国际知名在线课程平台",
+      "category": "learning",
+      "tags": ["在线课程", "教育", "认证"],
+      "addedDate": "2023-09-25",
+      "featured": true
+    },
+    {
+      "id": "9",
+      "name": "freeCodeCamp",
+      "url": "https://freecodecamp.org",
+      "description": "免费编程学习平台",
+      "category": "learning",
+      "tags": ["编程学习", "免费", "项目实践"],
+      "addedDate": "2023-10-03",
+      "featured": true
+    }
+  ],
+  "updated": "2023-10-15T12:00:00Z"
+}

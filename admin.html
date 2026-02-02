@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导航网站 | 后台管理</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/compass--v1.png">
+    <style>
+        /* 管理页面特定样式 */
+        .admin-header {
+            background: linear-gradient(135deg, var(--dark-color), #343a40);
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .admin-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        
+        .admin-nav a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .admin-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .admin-sidebar {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            height: fit-content;
+        }
+        
+        .admin-sidebar h3 {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--dark-color);
+            transition: var(--transition);
+        }
+        
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .admin-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .tag-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .tag-input input {
+            flex-grow: 1;
+        }
+        
+        .tag-badge {
+            background-color: var(--light-gray);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .tag-badge .remove-tag {
+            cursor: pointer;
+            color: var(--danger-color);
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background-color: var(--light-gray);
+        }
+        
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        th {
+            font-weight: 600;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .action-btn.edit {
+            background-color: var(--warning-color);
+        }
+        
+        .action-btn.delete {
+            background-color: var(--danger-color);
+        }
+        
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-published {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-draft {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 992px) {
+            .admin-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="admin-header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-compass"></i>
+                <h1>导航网站管理后台</h1>
+            </div>
+            <div class="admin-nav">
+                <a href="/"><i class="fas fa-home"></i> 返回首页</a>
+                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> 退出</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="admin-container">
+            <aside class="admin-sidebar">
+                <h3><i class="fas fa-cog"></i> 管理面板</h3>
+                <nav class="sidebar-nav">
+                    <a href="#" class="active" data-section="websites">
+                        <i class="fas fa-globe"></i> 网站管理
+                    </a>
+                    <a href="#" data-section="categories">
+                        <i class="fas fa-list"></i> 分类管理
+                    </a>
+                    <a href="#" data-section="settings">
+                        <i class="fas fa-sliders-h"></i> 设置
+                    </a>
+                </nav>
+            </aside>
+            
+            <div class="admin-content">
+                <!-- 网站管理部分 -->
+                <div id="websites-section" class="content-section">
+                    <div class="content-header">
+                        <h2><i class="fas fa-globe"></i> 网站管理</h2>
+                        <button class="btn" id="addWebsiteBtn">
+                            <i class="fas fa-plus"></i> 添加网站
+                        </button>
+                    </div>
+                    
+                    <div id="alert-container"></div>
+                    
+                    <div id="websites-list" class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>网站名称</th>
+                                    <th>分类</th>
+                                    <th>URL</th>
+                                    <th>标签</th>
+                                    <th>添加日期</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="websites-table-body">
+                                <!-- 网站列表将动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="website-form-container" class="hidden">
+                        <h3 id="form-title">添加新网站</h3>
+                        <form id="website-form">
+                            <input type="hidden" id="website-id" value="">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="website-name">网站名称 *</label>
+                                    <input type="text" id="website-name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="website-url">网站URL *</label>
+                                    <input type="url" id="website-url" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="website-description">网站描述</label>
+                                <textarea id="website-description" class="form-control" rows="3"></textarea>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="website-category">分类 *</label>
+                                    <select id="website-category" class="form-control" required>
+                                        <option value="">请选择分类</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="website-date">添加日期</label>
+                                    <input type="date" id="website-date" class="form-control">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>标签</label>
+                                <div class="tag-input">
+                                    <input type="text" id="tag-input" class="form-control" placeholder="输入标签后按Enter添加">
+                                    <button type="button" id="add-tag-btn" class="btn">添加</button>
+                                </div>
+                                <div id="tags-container" class="tags-container">
+                                    <!-- 标签将动态添加 -->
+                                </div>
+                                <input type="hidden" id="website-tags" value="[]">
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" id="website-featured" class="form-check-input">
+                                    <label for="website-featured" class="form-check-label">设为精选网站</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> 保存网站
+                                </button>
+                                <button type="button" id="cancel-form" class="btn">
+                                    <i class="fas fa-times"></i> 取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- 分类管理部分 -->
+                <div id="categories-section" class="content-section hidden">
+                    <div class="content-header">
+                        <h2><i class="fas fa-list"></i> 分类管理</h2>
+                        <button class="btn" id="addCategoryBtn">
+                            <i class="fas fa-plus"></i> 添加分类
+                        </button>
+                    </div>
+                    
+                    <div id="categories-list" class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>分类名称</th>
+                                    <th>ID</th>
+                                    <th>颜色</th>
+                                    <th>网站数量</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="categories-table-body">
+                                <!-- 分类列表将动态生成 -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="category-form-container" class="hidden">
+                        <h3 id="category-form-title">添加新分类</h3>
+                        <form id="category-form">
+                            <input type="hidden" id="category-id" value="">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="category-name">分类名称 *</label>
+                                    <input type="text" id="category-name" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="category-color">颜色 *</label>
+                                    <input type="color" id="category-color" class="form-control" value="#4361ee" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="category-id-input">分类ID *</label>
+                                <input type="text" id="category-id-input" class="form-control" required>
+                                <small>英文ID，用于内部标识（如：dev, design）</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-save"></i> 保存分类
+                                </button>
+                                <button type="button" id="cancel-category-form" class="btn">
+                                    <i class="fas fa-times"></i> 取消
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- 设置部分 -->
+                <div id="settings-section" class="content-section hidden">
+                    <div class="content-header">
+                        <h2><i class="fas fa-sliders-h"></i> 设置</h2>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <div>
+                            <strong>GitHub 仓库配置</strong>
+                            <p>网站数据存储在 GitHub 仓库中。请配置您的仓库信息以启用数据同步功能。</p>
+                        </div>
+                    </div>
+                    
+                    <form id="settings-form">
+                        <div class="form-group">
+                            <label for="github-repo">GitHub 仓库</label>
+                            <input type="text" id="github-repo" class="form-control" placeholder="username/repository">
+                            <small>格式：用户名/仓库名</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="github-token">GitHub 访问令牌</label>
+                            <input type="password" id="github-token" class="form-control">
+                            <small>需要 repo 权限的 GitHub Personal Access Token</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="data-file">数据文件路径</label>
+                            <input type="text" id="data-file" class="form-control" value="data.json">
+                            <small>仓库中存储数据的 JSON 文件路径</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="button" id="test-connection" class="btn">
+                                <i class="fas fa-plug"></i> 测试连接
+                            </button>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> 保存设置
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <div class="alert alert-info" style="margin-top: 30px;">
+                        <i class="fas fa-download"></i>
+                        <div>
+                            <strong>导出数据</strong>
+                            <p>您可以导出当前数据到本地文件。</p>
+                            <button id="export-data" class="btn" style="margin-top: 10px;">
+                                <i class="fas fa-file-export"></i> 导出数据
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+</html>

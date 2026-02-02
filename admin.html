@@ -3,538 +3,506 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>导航网站 | 后台管理</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/color/96/000000/compass--v1.png">
+    <title>导航管理后台</title>
     <style>
-        /* 管理页面特定样式 */
-        .admin-header {
-            background: linear-gradient(135deg, var(--dark-color), #343a40);
-            color: white;
-            padding: 20px 0;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
             margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
         }
         
-        .admin-header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
         }
         
-        .admin-nav a {
+        .back-link {
+            display: inline-block;
+            background: #6c757d;
             color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
             text-decoration: none;
-            margin-left: 20px;
-            padding: 8px 15px;
-            border-radius: 5px;
-            transition: var(--transition);
-        }
-        
-        .admin-nav a:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .admin-container {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        .admin-sidebar {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 25px;
-            box-shadow: var(--box-shadow);
-            height: fit-content;
-        }
-        
-        .admin-sidebar h3 {
+            font-size: 14px;
             margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--light-gray);
         }
         
-        .sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        .back-link:hover {
+            background: #545b62;
         }
         
-        .sidebar-nav a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
+        .card {
+            background: white;
             border-radius: 8px;
-            text-decoration: none;
-            color: var(--dark-color);
-            transition: var(--transition);
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
         }
         
-        .sidebar-nav a:hover, .sidebar-nav a.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .admin-content {
-            background-color: white;
-            border-radius: var(--border-radius);
-            padding: 30px;
-            box-shadow: var(--box-shadow);
-        }
-        
-        .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-        
-        .btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn:hover {
-            background-color: var(--secondary-color);
-        }
-        
-        .btn-success {
-            background-color: var(--success-color);
-        }
-        
-        .btn-warning {
-            background-color: var(--warning-color);
-        }
-        
-        .btn-danger {
-            background-color: var(--danger-color);
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
-        .form-group label {
+        label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-weight: 500;
+            color: #555;
         }
         
-        .form-control {
+        input {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--light-gray);
-            border-radius: 5px;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             font-size: 16px;
-            transition: var(--transition);
         }
         
-        .form-control:focus {
+        input:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            border-color: #007bff;
         }
         
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
         }
         
-        .tags-container {
+        button:hover {
+            background: #0056b3;
+        }
+        
+        button.secondary {
+            background: #6c757d;
+        }
+        
+        button.secondary:hover {
+            background: #545b62;
+        }
+        
+        button.danger {
+            background: #dc3545;
+        }
+        
+        button.danger:hover {
+            background: #c82333;
+        }
+        
+        .websites-list {
+            margin-top: 20px;
+        }
+        
+        .website-item {
             display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background: #f9f9f9;
         }
         
-        .tag-input {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .tag-input input {
+        .website-info {
             flex-grow: 1;
         }
         
-        .tag-badge {
-            background-color: var(--light-gray);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .tag-badge .remove-tag {
-            cursor: pointer;
-            color: var(--danger-color);
-        }
-        
-        .table-container {
-            overflow-x: auto;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        thead {
-            background-color: var(--light-gray);
-        }
-        
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--light-gray);
-        }
-        
-        th {
-            font-weight: 600;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .action-btn {
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-            border: none;
-            color: white;
-            font-size: 14px;
-        }
-        
-        .action-btn.edit {
-            background-color: var(--warning-color);
-        }
-        
-        .action-btn.delete {
-            background-color: var(--danger-color);
-        }
-        
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+        .website-name {
             font-weight: 500;
+            margin-bottom: 5px;
         }
         
-        .status-published {
-            background-color: #d4edda;
-            color: #155724;
+        .website-url {
+            color: #666;
+            font-size: 14px;
+            word-break: break-all;
         }
         
-        .status-draft {
-            background-color: #fff3cd;
-            color: #856404;
-        }
-        
-        .alert {
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
+        .actions {
             display: flex;
-            align-items: center;
             gap: 10px;
         }
         
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .alert-info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-        
-        .hidden {
+        .message {
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
             display: none;
         }
         
-        @media (max-width: 992px) {
-            .admin-container {
-                grid-template-columns: 1fr;
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .website-item {
+                flex-direction: column;
+                align-items: flex-start;
             }
             
-            .form-row {
-                grid-template-columns: 1fr;
+            .actions {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <header class="admin-header">
-        <div class="container">
-            <div class="logo">
-                <i class="fas fa-compass"></i>
-                <h1>导航网站管理后台</h1>
-            </div>
-            <div class="admin-nav">
-                <a href="/"><i class="fas fa-home"></i> 返回首页</a>
-                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> 退出</a>
+    <div class="container">
+        <a href="/" class="back-link">← 返回首页</a>
+        
+        <header>
+            <h1>导航管理后台</h1>
+            <p>添加、编辑或删除网站链接</p>
+        </header>
+        
+        <div id="message" class="message"></div>
+        
+        <div class="card">
+            <h2>添加新网站</h2>
+            <form id="add-form">
+                <div class="form-group">
+                    <label for="site-name">网站名称</label>
+                    <input type="text" id="site-name" placeholder="例如：GitHub" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="site-url">网站URL</label>
+                    <input type="url" id="site-url" placeholder="https://example.com" required>
+                </div>
+                
+                <button type="submit">添加网站</button>
+                <button type="button" id="load-sample" class="secondary">加载示例数据</button>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h2>当前网站列表</h2>
+            <div id="websites-list" class="websites-list">
+                <!-- 网站列表将动态生成 -->
             </div>
         </div>
-    </header>
-
-    <main class="container">
-        <div class="admin-container">
-            <aside class="admin-sidebar">
-                <h3><i class="fas fa-cog"></i> 管理面板</h3>
-                <nav class="sidebar-nav">
-                    <a href="#" class="active" data-section="websites">
-                        <i class="fas fa-globe"></i> 网站管理
-                    </a>
-                    <a href="#" data-section="categories">
-                        <i class="fas fa-list"></i> 分类管理
-                    </a>
-                    <a href="#" data-section="settings">
-                        <i class="fas fa-sliders-h"></i> 设置
-                    </a>
-                </nav>
-            </aside>
+        
+        <div class="card">
+            <h2>GitHub仓库配置</h2>
+            <p style="margin-bottom: 15px;">配置您的GitHub仓库信息以保存更改</p>
             
-            <div class="admin-content">
-                <!-- 网站管理部分 -->
-                <div id="websites-section" class="content-section">
-                    <div class="content-header">
-                        <h2><i class="fas fa-globe"></i> 网站管理</h2>
-                        <button class="btn" id="addWebsiteBtn">
-                            <i class="fas fa-plus"></i> 添加网站
-                        </button>
-                    </div>
-                    
-                    <div id="alert-container"></div>
-                    
-                    <div id="websites-list" class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>网站名称</th>
-                                    <th>分类</th>
-                                    <th>URL</th>
-                                    <th>标签</th>
-                                    <th>添加日期</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="websites-table-body">
-                                <!-- 网站列表将动态生成 -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <div id="website-form-container" class="hidden">
-                        <h3 id="form-title">添加新网站</h3>
-                        <form id="website-form">
-                            <input type="hidden" id="website-id" value="">
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="website-name">网站名称 *</label>
-                                    <input type="text" id="website-name" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="website-url">网站URL *</label>
-                                    <input type="url" id="website-url" class="form-control" required>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="website-description">网站描述</label>
-                                <textarea id="website-description" class="form-control" rows="3"></textarea>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="website-category">分类 *</label>
-                                    <select id="website-category" class="form-control" required>
-                                        <option value="">请选择分类</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="website-date">添加日期</label>
-                                    <input type="date" id="website-date" class="form-control">
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>标签</label>
-                                <div class="tag-input">
-                                    <input type="text" id="tag-input" class="form-control" placeholder="输入标签后按Enter添加">
-                                    <button type="button" id="add-tag-btn" class="btn">添加</button>
-                                </div>
-                                <div id="tags-container" class="tags-container">
-                                    <!-- 标签将动态添加 -->
-                                </div>
-                                <input type="hidden" id="website-tags" value="[]">
-                            </div>
-                            
-                            <div class="form-group">
-                                <div class="form-check">
-                                    <input type="checkbox" id="website-featured" class="form-check-input">
-                                    <label for="website-featured" class="form-check-label">设为精选网站</label>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save"></i> 保存网站
-                                </button>
-                                <button type="button" id="cancel-form" class="btn">
-                                    <i class="fas fa-times"></i> 取消
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
-                <!-- 分类管理部分 -->
-                <div id="categories-section" class="content-section hidden">
-                    <div class="content-header">
-                        <h2><i class="fas fa-list"></i> 分类管理</h2>
-                        <button class="btn" id="addCategoryBtn">
-                            <i class="fas fa-plus"></i> 添加分类
-                        </button>
-                    </div>
-                    
-                    <div id="categories-list" class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>分类名称</th>
-                                    <th>ID</th>
-                                    <th>颜色</th>
-                                    <th>网站数量</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="categories-table-body">
-                                <!-- 分类列表将动态生成 -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <div id="category-form-container" class="hidden">
-                        <h3 id="category-form-title">添加新分类</h3>
-                        <form id="category-form">
-                            <input type="hidden" id="category-id" value="">
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="category-name">分类名称 *</label>
-                                    <input type="text" id="category-name" class="form-control" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="category-color">颜色 *</label>
-                                    <input type="color" id="category-color" class="form-control" value="#4361ee" required>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="category-id-input">分类ID *</label>
-                                <input type="text" id="category-id-input" class="form-control" required>
-                                <small>英文ID，用于内部标识（如：dev, design）</small>
-                            </div>
-                            
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-success">
-                                    <i class="fas fa-save"></i> 保存分类
-                                </button>
-                                <button type="button" id="cancel-category-form" class="btn">
-                                    <i class="fas fa-times"></i> 取消
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                
-                <!-- 设置部分 -->
-                <div id="settings-section" class="content-section hidden">
-                    <div class="content-header">
-                        <h2><i class="fas fa-sliders-h"></i> 设置</h2>
-                    </div>
-                    
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i>
-                        <div>
-                            <strong>GitHub 仓库配置</strong>
-                            <p>网站数据存储在 GitHub 仓库中。请配置您的仓库信息以启用数据同步功能。</p>
-                        </div>
-                    </div>
-                    
-                    <form id="settings-form">
-                        <div class="form-group">
-                            <label for="github-repo">GitHub 仓库</label>
-                            <input type="text" id="github-repo" class="form-control" placeholder="username/repository">
-                            <small>格式：用户名/仓库名</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="github-token">GitHub 访问令牌</label>
-                            <input type="password" id="github-token" class="form-control">
-                            <small>需要 repo 权限的 GitHub Personal Access Token</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="data-file">数据文件路径</label>
-                            <input type="text" id="data-file" class="form-control" value="data.json">
-                            <small>仓库中存储数据的 JSON 文件路径</small>
-                        </div>
-                        
-                        <div class="form-group">
-                            <button type="button" id="test-connection" class="btn">
-                                <i class="fas fa-plug"></i> 测试连接
-                            </button>
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-save"></i> 保存设置
-                            </button>
-                        </div>
-                    </form>
-                    
-                    <div class="alert alert-info" style="margin-top: 30px;">
-                        <i class="fas fa-download"></i>
-                        <div>
-                            <strong>导出数据</strong>
-                            <p>您可以导出当前数据到本地文件。</p>
-                            <button id="export-data" class="btn" style="margin-top: 10px;">
-                                <i class="fas fa-file-export"></i> 导出数据
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-group">
+                <label for="repo-url">GitHub仓库地址</label>
+                <input type="text" id="repo-url" placeholder="username/repository">
             </div>
+            
+            <div class="form-group">
+                <label for="github-token">GitHub访问令牌</label>
+                <input type="password" id="github-token" placeholder="需要 repo 权限">
+            </div>
+            
+            <button id="save-config" class="secondary">保存配置</button>
+            <button id="export-data" class="secondary">导出数据</button>
         </div>
-    </main>
+    </div>
 
-    <script src="admin.js"></script>
+    <script>
+        // 数据管理
+        let websites = [];
+        let githubConfig = {
+            repo: '',
+            token: ''
+        };
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载现有数据
+            loadData();
+            
+            // 加载配置
+            loadConfig();
+            
+            // 设置事件监听器
+            document.getElementById('add-form').addEventListener('submit', addWebsite);
+            document.getElementById('load-sample').addEventListener('click', loadSampleData);
+            document.getElementById('save-config').addEventListener('click', saveConfig);
+            document.getElementById('export-data').addEventListener('click', exportData);
+        });
+        
+        // 加载数据
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                websites = data.websites || [];
+                renderWebsites();
+                showMessage('数据加载成功', 'success');
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                showMessage('使用示例数据', 'error');
+                loadSampleData();
+            }
+        }
+        
+        // 渲染网站列表
+        function renderWebsites() {
+            const container = document.getElementById('websites-list');
+            
+            if (websites.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999;">暂无网站，请添加</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            websites.forEach((site, index) => {
+                const item = document.createElement('div');
+                item.className = 'website-item';
+                item.innerHTML = `
+                    <div class="website-info">
+                        <div class="website-name">${site.name}</div>
+                        <div class="website-url">${site.url}</div>
+                    </div>
+                    <div class="actions">
+                        <button class="danger" onclick="deleteWebsite(${index})">删除</button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+        
+        // 添加网站
+        function addWebsite(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('site-name').value.trim();
+            const url = document.getElementById('site-url').value.trim();
+            
+            if (!name || !url) {
+                showMessage('请填写网站名称和URL', 'error');
+                return;
+            }
+            
+            // 验证URL格式
+            try {
+                new URL(url);
+            } catch {
+                showMessage('请输入有效的URL', 'error');
+                return;
+            }
+            
+            // 添加到列表
+            websites.push({name, url});
+            
+            // 清空表单
+            document.getElementById('add-form').reset();
+            
+            // 重新渲染列表
+            renderWebsites();
+            
+            // 保存到GitHub（如果已配置）
+            saveToGitHub();
+            
+            showMessage('网站已添加', 'success');
+        }
+        
+        // 删除网站
+        function deleteWebsite(index) {
+            if (confirm(`确定要删除 "${websites[index].name}" 吗？`)) {
+                websites.splice(index, 1);
+                renderWebsites();
+                saveToGitHub();
+                showMessage('网站已删除', 'success');
+            }
+        }
+        
+        // 加载示例数据
+        function loadSampleData() {
+            websites = [
+                {name: "GitHub", url: "https://github.com"},
+                {name: "Google", url: "https://google.com"},
+                {name: "MDN", url: "https://developer.mozilla.org"},
+                {name: "Cloudflare", url: "https://cloudflare.com"},
+                {name: "Stack Overflow", url: "https://stackoverflow.com"},
+                {name: "YouTube", url: "https://youtube.com"}
+            ];
+            
+            renderWebsites();
+            showMessage('已加载示例数据', 'success');
+        }
+        
+        // 保存配置
+        function saveConfig() {
+            const repo = document.getElementById('repo-url').value.trim();
+            const token = document.getElementById('github-token').value.trim();
+            
+            if (!repo) {
+                showMessage('请输入GitHub仓库地址', 'error');
+                return;
+            }
+            
+            githubConfig.repo = repo;
+            githubConfig.token = token;
+            
+            localStorage.setItem('navConfig', JSON.stringify(githubConfig));
+            showMessage('配置已保存', 'success');
+        }
+        
+        // 加载配置
+        function loadConfig() {
+            const savedConfig = localStorage.getItem('navConfig');
+            if (savedConfig) {
+                githubConfig = JSON.parse(savedConfig);
+                document.getElementById('repo-url').value = githubConfig.repo || '';
+                document.getElementById('github-token').value = githubConfig.token || '';
+            }
+        }
+        
+        // 保存到GitHub
+        async function saveToGitHub() {
+            if (!githubConfig.repo || !githubConfig.token) {
+                showMessage('未配置GitHub仓库，数据仅保存在本地', 'error');
+                return;
+            }
+            
+            try {
+                const data = {
+                    websites: websites,
+                    updated: new Date().toISOString()
+                };
+                
+                const content = JSON.stringify(data, null, 2);
+                const contentEncoded = btoa(unescape(encodeURIComponent(content)));
+                
+                // 首先获取文件的SHA（如果存在）
+                let sha = '';
+                try {
+                    const getUrl = `https://api.github.com/repos/${githubConfig.repo}/contents/data.json`;
+                    const getResponse = await fetch(getUrl, {
+                        headers: {
+                            'Authorization': `token ${githubConfig.token}`
+                        }
+                    });
+                    
+                    if (getResponse.ok) {
+                        const fileInfo = await getResponse.json();
+                        sha = fileInfo.sha;
+                    }
+                } catch (error) {
+                    console.log('文件可能不存在，将创建新文件');
+                }
+                
+                // 创建或更新文件
+                const url = `https://api.github.com/repos/${githubConfig.repo}/contents/data.json`;
+                const body = {
+                    message: `更新导航数据 ${new Date().toLocaleString()}`,
+                    content: contentEncoded,
+                    sha: sha || undefined
+                };
+                
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${githubConfig.token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+                
+                if (response.ok) {
+                    showMessage('数据已保存到GitHub', 'success');
+                } else {
+                    throw new Error('保存失败');
+                }
+            } catch (error) {
+                console.error('保存到GitHub失败:', error);
+                showMessage('保存到GitHub失败，数据仅保存在本地', 'error');
+            }
+        }
+        
+        // 导出数据
+        function exportData() {
+            const data = {
+                websites: websites,
+                updated: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nav-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showMessage('数据已导出', 'success');
+        }
+        
+        // 显示消息
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                messageEl.className = 'message';
+            }, 3000);
+        }
+    </script>
 </body>
 </html>

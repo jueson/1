@@ -1,10 +1,6 @@
 {
   "websites": [
     {
-      "name": "GitHub",
-      "url": "https://github.com"
-    },
-    {
       "name": "Google",
       "url": "https://google.com"
     },
@@ -41,5 +37,5 @@
       "url": "https://wikipedia.org"
     }
   ],
-  "updated": "2023-10-15T12:00:00Z"
+  "updated": "2026-02-02T16:35:38.595Z"
 }

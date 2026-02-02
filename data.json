@@ -35,7 +35,11 @@
     {
       "name": "Wikipedia",
       "url": "https://wikipedia.org"
+    },
+    {
+      "name": "github",
+      "url": "https://github.com/jueson"
     }
   ],
-  "updated": "2026-02-02T16:35:38.595Z"
+  "updated": "2026-02-02T16:38:40.394Z"
 }

@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导航管理后台</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --danger-color: #e63946;
+            --success-color: #2a9d8f;
+            --warning-color: #e9c46a;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* 头部 */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 28px;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            background: var(--gray-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        
+        .back-link:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            border: 1px solid transparent;
+        }
+        
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+            color: var(--dark-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h2 i {
+            color: var(--primary-color);
+        }
+        
+        /* 表单样式 */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--gray-color);
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+        }
+        
+        .btn-success:hover {
+            background: #248277;
+        }
+        
+        .btn-danger {
+            background: var(--danger-color);
+        }
+        
+        .btn-danger:hover {
+            background: #d32f3c;
+        }
+        
+        .btn-warning {
+            background: var(--warning-color);
+            color: var(--dark-color);
+        }
+        
+        .btn-warning:hover {
+            background: #e0b64a;
+        }
+        
+        /* 网站列表 */
+        .websites-list {
+            margin-top: 20px;
+        }
+        
+        .website-item {
+            display: grid;
+            grid-template-columns: 2fr 2fr 1fr auto;
+            gap: 15px;
+            align-items: center;
+            padding: 18px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            margin-bottom: 12px;
+            background: white;
+            transition: var(--transition);
+        }
+        
+        .website-item:hover {
+            background: #f8f9fa;
+            border-color: #c1c9d0;
+        }
+        
+        .website-name {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .website-url {
+            color: var(--gray-color);
+            font-size: 14px;
+            word-break: break-all;
+        }
+        
+        .website-category {
+            background: var(--light-gray);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: var(--gray-color);
+            transition: var(--transition);
+        }
+        
+        .action-btn:hover {
+            background: var(--light-gray);
+            color: var(--dark-color);
+        }
+        
+        .edit-btn:hover {
+            color: var(--primary-color);
+        }
+        
+        .delete-btn:hover {
+            color: var(--danger-color);
+        }
+        
+        /* 消息提示 */
+        .message {
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        .message.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+            display: block;
+        }
+        
+        /* 标签样式 */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .tag {
+            background: var(--light-gray);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tag .remove-tag {
+            background: none;
+            border: none;
+            font-size: 12px;
+            cursor: pointer;
+            color: var(--gray-color);
+            padding: 0;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .website-item {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .actions {
+                justify-content: flex-end;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+                margin-bottom: 10px;
+            }
+        }
+        
+        /* 模态框 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--gray-color);
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> 返回首页
+        </a>
+        
+        <header>
+            <h1><i class="fas fa-cogs"></i> 导航管理后台</h1>
+            <p>管理网站导航，支持分类、搜索和批量操作</p>
+        </header>
+        
+        <div id="message" class="message"></div>
+        
+        <!-- 添加/编辑网站 -->
+        <div class="card">
+            <h2><i class="fas fa-plus-circle"></i> 添加新网站</h2>
+            <form id="website-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="site-name">网站名称</label>
+                        <input type="text" id="site-name" placeholder="例如：GitHub" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="site-url">网站URL</label>
+                        <input type="url" id="site-url" placeholder="https://example.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="site-category">分类</label>
+                        <input type="text" id="site-category" placeholder="开发、搜索、社交等" list="category-list">
+                        <datalist id="category-list">
+                            <!-- 分类选项将通过JavaScript动态生成 -->
+                        </datalist>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="site-description">描述 (可选)</label>
+                        <input type="text" id="site-description" placeholder="简短描述">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>标签 (可选，用逗号分隔)</label>
+                    <input type="text" id="site-tags" placeholder="前端,开发,文档">
+                </div>
+                
+                <button type="submit" class="btn" id="submit-btn">
+                    <i class="fas fa-save"></i> 添加网站
+                </button>
+                <button type="button" class="btn btn-secondary" id="cancel-edit" style="display: none;">
+                    <i class="fas fa-times"></i> 取消编辑
+                </button>
+                <button type="button" class="btn btn-warning" id="load-sample">
+                    <i class="fas fa-download"></i> 加载示例数据
+                </button>
+            </form>
+        </div>
+        
+        <!-- 网站列表 -->
+        <div class="card">
+            <h2><i class="fas fa-list"></i> 网站列表</h2>
+            
+            <div class="form-group" style="margin-bottom: 20px;">
+                <input type="text" id="search-sites" placeholder="搜索网站..." style="max-width: 300px;">
+            </div>
+            
+            <div id="websites-list" class="websites-list">
+                <!-- 网站列表将动态生成 -->
+            </div>
+            
+            <div style="margin-top: 20px; display: flex; gap: 10px;">
+                <button class="btn btn-success" id="export-data">
+                    <i class="fas fa-file-export"></i> 导出数据
+                </button>
+                <button class="btn btn-secondary" id="import-data">
+                    <i class="fas fa-file-import"></i> 导入数据
+                </button>
+                <button class="btn btn-danger" id="delete-all" style="margin-left: auto;">
+                    <i class="fas fa-trash-alt"></i> 清空所有
+                </button>
+            </div>
+        </div>
+        
+        <!-- GitHub配置 -->
+        <div class="card">
+            <h2><i class="fab fa-github"></i> GitHub仓库配置</h2>
+            <p style="margin-bottom: 15px; color: var(--gray-color);">
+                配置您的GitHub仓库信息以自动同步数据到GitHub
+            </p>
+            
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="repo-url">GitHub仓库地址</label>
+                    <input type="text" id="repo-url" placeholder="username/repository">
+                </div>
+                
+                <div class="form-group">
+                    <label for="github-token">GitHub访问令牌</label>
+                    <input type="password" id="github-token" placeholder="需要 repo 权限">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="data-path">数据文件路径 (可选)</label>
+                <input type="text" id="data-path" value="data.json" placeholder="data.json">
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-secondary" id="save-config">
+                    <i class="fas fa-save"></i> 保存配置
+                </button>
+                <button class="btn" id="test-connection">
+                    <i class="fas fa-wifi"></i> 测试连接
+                </button>
+                <button class="btn btn-success" id="sync-to-github">
+                    <i class="fas fa-sync-alt"></i> 同步到GitHub
+                </button>
+            </div>
+            
+            <div id="github-status" style="margin-top: 15px; font-size: 14px; color: var(--gray-color);"></div>
+        </div>
+    </div>
+    
+    <!-- 导入数据模态框 -->
+    <div id="import-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>导入数据</h3>
+                <button class="close-modal" id="close-import-modal">&times;</button>
+            </div>
+            <p>请选择要导入的JSON文件：</p>
+            <input type="file" id="import-file" accept=".json" style="margin: 15px 0;">
+            <p style="font-size: 14px; color: var(--gray-color); margin-bottom: 15px;">
+                注意：导入数据将替换当前所有网站数据，请谨慎操作！
+            </p>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-import">取消</button>
+                <button class="btn btn-success" id="confirm-import">导入</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 清空确认模态框 -->
+    <div id="confirm-delete-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>确认清空</h3>
+                <button class="close-modal" id="close-delete-modal">&times;</button>
+            </div>
+            <p>您确定要清空所有网站数据吗？此操作不可撤销！</p>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-delete">取消</button>
+                <button class="btn btn-danger" id="confirm-delete">确认清空</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 数据管理
+        let websites = [];
+        let editingIndex = -1;
+        let githubConfig = {
+            repo: '',
+            token: '',
+            path: 'data.json'
+        };
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载现有数据
+            loadData();
+            
+            // 加载配置
+            loadConfig();
+            
+            // 设置事件监听器
+            document.getElementById('website-form').addEventListener('submit', saveWebsite);
+            document.getElementById('cancel-edit').addEventListener('click', cancelEdit);
+            document.getElementById('load-sample').addEventListener('click', loadSampleData);
+            document.getElementById('save-config').addEventListener('click', saveConfig);
+            document.getElementById('test-connection').addEventListener('click', testGithubConnection);
+            document.getElementById('sync-to-github').addEventListener('click', saveToGitHub);
+            document.getElementById('export-data').addEventListener('click', exportData);
+            document.getElementById('import-data').addEventListener('click', openImportModal);
+            document.getElementById('delete-all').addEventListener('click', openDeleteConfirmModal);
+            document.getElementById('search-sites').addEventListener('input', filterSitesList);
+            
+            // 导入模态框事件
+            document.getElementById('close-import-modal').addEventListener('click', closeImportModal);
+            document.getElementById('cancel-import').addEventListener('click', closeImportModal);
+            document.getElementById('confirm-import').addEventListener('click', importData);
+            
+            // 删除确认模态框事件
+            document.getElementById('close-delete-modal').addEventListener('click', closeDeleteModal);
+            document.getElementById('cancel-delete').addEventListener('click', closeDeleteModal);
+            document.getElementById('confirm-delete').addEventListener('click', deleteAllWebsites);
+        });
+        
+        // 加载数据
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                websites = data.websites || [];
+                renderWebsites();
+                updateCategoryList();
+                showMessage('数据加载成功', 'success');
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                showMessage('加载数据失败，使用示例数据', 'error');
+                loadSampleData();
+            }
+        }
+        
+        // 渲染网站列表
+        function renderWebsites(filteredWebsites = null) {
+            const container = document.getElementById('websites-list');
+            const sitesToRender = filteredWebsites || websites;
+            
+            if (sitesToRender.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">暂无网站，请添加</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            sitesToRender.forEach((site, index) => {
+                const item = document.createElement('div');
+                item.className = 'website-item';
+                
+                // 截断过长的URL显示
+                let displayUrl = site.url;
+                try {
+                    const urlObj = new URL(site.url);
+                    displayUrl = urlObj.hostname.replace('www.', '');
+                } catch (e) {
+                    // 如果URL解析失败，保持原样
+                }
+                
+                item.innerHTML = `
+                    <div class="website-name">${site.name}</div>
+                    <div class="website-url">${displayUrl}</div>
+                    <div class="website-category">${site.category || '未分类'}</div>
+                    <div class="actions">
+                        <button class="action-btn edit-btn" title="编辑" onclick="editWebsite(${index})">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete-btn" title="删除" onclick="deleteWebsite(${index})">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+        
+        // 过滤网站列表
+        function filterSitesList() {
+            const searchTerm = document.getElementById('search-sites').value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                renderWebsites();
+                return;
+            }
+            
+            const filtered = websites.filter(site => 
+                site.name.toLowerCase().includes(searchTerm) ||
+                site.url.toLowerCase().includes(searchTerm) ||
+                (site.category && site.category.toLowerCase().includes(searchTerm)) ||
+                (site.description && site.description.toLowerCase().includes(searchTerm)) ||
+                (site.tags && site.tags.some(tag => tag.toLowerCase().includes(searchTerm)))
+            );
+            
+            renderWebsites(filtered);
+        }
+        
+        // 保存网站（添加或编辑）
+        function saveWebsite(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('site-name').value.trim();
+            const url = document.getElementById('site-url').value.trim();
+            const category = document.getElementById('site-category').value.trim() || '未分类';
+            const description = document.getElementById('site-description').value.trim();
+            const tags = document.getElementById('site-tags').value.trim();
+            
+            if (!name || !url) {
+                showMessage('请填写网站名称和URL', 'error');
+                return;
+            }
+            
+            // 验证URL格式
+            try {
+                new URL(url);
+            } catch {
+                showMessage('请输入有效的URL', 'error');
+                return;
+            }
+            
+            const websiteData = {
+                name,
+                url,
+                category,
+                updated: new Date().toISOString()
+            };
+            
+            if (description) {
+                websiteData.description = description;
+            }
+            
+            if (tags) {
+                websiteData.tags = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+            }
+            
+            if (editingIndex >= 0) {
+                // 编辑现有网站
+                websites[editingIndex] = websiteData;
+                showMessage('网站已更新', 'success');
+                cancelEdit();
+            } else {
+                // 添加新网站
+                websites.push(websiteData);
+                showMessage('网站已添加', 'success');
+            }
+            
+            // 清空表单
+            document.getElementById('website-form').reset();
+            
+            // 重新渲染列表
+            renderWebsites();
+            
+            // 更新分类列表
+            updateCategoryList();
+            
+            // 保存到GitHub（如果已配置）
+            if (githubConfig.repo && githubConfig.token) {
+                saveToGitHub();
+            }
+        }
+        
+        // 编辑网站
+        function editWebsite(index) {
+            const site = websites[index];
+            
+            document.getElementById('site-name').value = site.name;
+            document.getElementById('site-url').value = site.url;
+            document.getElementById('site-category').value = site.category || '';
+            document.getElementById('site-description').value = site.description || '';
+            document.getElementById('site-tags').value = site.tags ? site.tags.join(', ') : '';
+            
+            editingIndex = index;
+            
+            document.getElementById('submit-btn').innerHTML = '<i class="fas fa-save"></i> 更新网站';
+            document.getElementById('cancel-edit').style.display = 'inline-block';
+            
+            // 滚动到表单
+            document.getElementById('website-form').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // 取消编辑
+        function cancelEdit() {
+            document.getElementById('website-form').reset();
+            editingIndex = -1;
+            
+            document.getElementById('submit-btn').innerHTML = '<i class="fas fa-save"></i> 添加网站';
+            document.getElementById('cancel-edit').style.display = 'none';
+        }
+        
+        // 删除网站
+        function deleteWebsite(index) {
+            if (confirm(`确定要删除 "${websites[index].name}" 吗？`)) {
+                websites.splice(index, 1);
+                renderWebsites();
+                
+                // 如果正在编辑此网站，取消编辑
+                if (editingIndex === index) {
+                    cancelEdit();
+                }
+                
+                // 保存到GitHub（如果已配置）
+                if (githubConfig.repo && githubConfig.token) {
+                    saveToGitHub();
+                }
+                
+                showMessage('网站已删除', 'success');
+            }
+        }
+        
+        // 加载示例数据
+        function loadSampleData() {
+            websites = [
+                {name: "GitHub", url: "https://github.com", category: "开发", description: "代码托管平台", tags: ["代码", "开源"]},
+                {name: "Google", url: "https://google.com", category: "搜索", description: "搜索引擎", tags: ["搜索", "信息"]},
+                {name: "MDN", url: "https://developer.mozilla.org", category: "开发", description: "Web开发文档", tags: ["文档", "前端"]},
+                {name: "Cloudflare", url: "https://cloudflare.com", category: "开发", description: "网络服务提供商", tags: ["CDN", "安全"]},
+                {name: "Stack Overflow", url: "https://stackoverflow.com", category: "开发", description: "编程问答社区", tags: ["问答", "编程"]},
+                {name: "YouTube", url: "https://youtube.com", category: "视频", description: "视频分享平台", tags: ["视频", "娱乐"]},
+                {name: "Gmail", url: "https://mail.google.com", category: "邮箱", description: "谷歌邮箱", tags: ["邮件", "通讯"]},
+                {name: "Google Drive", url: "https://drive.google.com", category: "云存储", description: "谷歌云存储", tags: ["存储", "同步"]},
+                {name: "ChatGPT", url: "https://chat.openai.com", category: "AI工具", description: "AI对话助手", tags: ["AI", "对话"]},
+                {name: "Wikipedia", url: "https://wikipedia.org", category: "知识", description: "在线百科全书", tags: ["百科", "知识"]}
+            ];
+            
+            renderWebsites();
+            updateCategoryList();
+            showMessage('已加载示例数据', 'success');
+        }
+        
+        // 更新分类列表
+        function updateCategoryList() {
+            const categorySet = new Set();
+            websites.forEach(site => {
+                if (site.category) {
+                    categorySet.add(site.category);
+                }
+            });
+            
+            const categoryList = document.getElementById('category-list');
+            categoryList.innerHTML = '';
+            
+            categorySet.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                categoryList.appendChild(option);
+            });
+        }
+        
+        // 保存配置
+        function saveConfig() {
+            const repo = document.getElementById('repo-url').value.trim();
+            const token = document.getElementById('github-token').value.trim();
+            const path = document.getElementById('data-path').value.trim() || 'data.json';
+            
+            if (!repo) {
+                showMessage('请输入GitHub仓库地址', 'error');
+                return;
+            }
+            
+            githubConfig.repo = repo;
+            githubConfig.token = token;
+            githubConfig.path = path;
+            
+            localStorage.setItem('navConfig', JSON.stringify(githubConfig));
+            showMessage('配置已保存', 'success');
+        }
+        
+        // 加载配置
+        function loadConfig() {
+            const savedConfig = localStorage.getItem('navConfig');
+            if (savedConfig) {
+                githubConfig = JSON.parse(savedConfig);
+                document.getElementById('repo-url').value = githubConfig.repo || '';
+                document.getElementById('github-token').value = githubConfig.token || '';
+                document.getElementById('data-path').value = githubConfig.path || 'data.json';
+            }
+        }
+        
+        // 测试GitHub连接
+        async function testGithubConnection() {
+            if (!githubConfig.repo || !githubConfig.token) {
+                showMessage('请先配置GitHub仓库信息', 'error');
+                return;
+            }
+            
+            showMessage('正在测试连接...', 'info');
+            
+            try {
+                const url = `https://api.github.com/repos/${githubConfig.repo}`;
+                const response = await fetch(url, {
+                    headers: {
+                        'Authorization': `token ${githubConfig.token}`
+                    }
+                });
+                
+                if (response.ok) {
+                    showMessage('GitHub连接成功', 'success');
+                } else {
+                    throw new Error('连接失败');
+                }
+            } catch (error) {
+                console.error('测试连接失败:', error);
+                showMessage('GitHub连接失败，请检查仓库地址和令牌', 'error');
+            }
+        }
+        
+        // 保存到GitHub
+        async function saveToGitHub() {
+            if (!githubConfig.repo || !githubConfig.token) {
+                showMessage('未配置GitHub仓库，数据仅保存在本地', 'error');
+                return;
+            }
+            
+            showMessage('正在保存到GitHub...', 'info');
+            
+            try {
+                const data = {
+                    websites: websites,
+                    updated: new Date().toISOString()
+                };
+                
+                const content = JSON.stringify(data, null, 2);
+                const contentEncoded = btoa(unescape(encodeURIComponent(content)));
+                
+                // 首先获取文件的SHA（如果存在）
+                let sha = '';
+                try {
+                    const getUrl = `https://api.github.com/repos/${githubConfig.repo}/contents/${githubConfig.path}`;
+                    const getResponse = await fetch(getUrl, {
+                        headers: {
+                            'Authorization': `token ${githubConfig.token}`
+                        }
+                    });
+                    
+                    if (getResponse.ok) {
+                        const fileInfo = await getResponse.json();
+                        sha = fileInfo.sha;
+                    }
+                } catch (error) {
+                    console.log('文件可能不存在，将创建新文件');
+                }
+                
+                // 创建或更新文件
+                const url = `https://api.github.com/repos/${githubConfig.repo}/contents/${githubConfig.path}`;
+                const body = {
+                    message: `更新导航数据 ${new Date().toLocaleString('zh-CN')}`,
+                    content: contentEncoded,
+                    sha: sha || undefined
+                };
+                
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${githubConfig.token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+                
+                if (response.ok) {
+                    showMessage('数据已保存到GitHub', 'success');
+                } else {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || '保存失败');
+                }
+            } catch (error) {
+                console.error('保存到GitHub失败:', error);
+                showMessage(`保存到GitHub失败: ${error.message}`, 'error');
+            }
+        }
+        
+        // 导出数据
+        function exportData() {
+            const data = {
+                websites: websites,
+                updated: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nav-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showMessage('数据已导出', 'success');
+        }
+        
+        // 打开导入模态框
+        function openImportModal() {
+            document.getElementById('import-modal').style.display = 'flex';
+        }
+        
+        // 关闭导入模态框
+        function closeImportModal() {
+            document.getElementById('import-modal').style.display = 'none';
+            document.getElementById('import-file').value = '';
+        }
+        
+        // 导入数据
+        function importData() {
+            const fileInput = document.getElementById('import-file');
+            
+            if (!fileInput.files.length) {
+                showMessage('请选择要导入的文件', 'error');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    if (!data.websites || !Array.isArray(data.websites)) {
+                        throw new Error('无效的数据格式');
+                    }
+                    
+                    websites = data.websites;
+                    renderWebsites();
+                    updateCategoryList();
+                    
+                    closeImportModal();
+                    showMessage('数据导入成功', 'success');
+                    
+                    // 保存到GitHub（如果已配置）
+                    if (githubConfig.repo && githubConfig.token) {
+                        saveToGitHub();
+                    }
+                } catch (error) {
+                    showMessage('导入失败：文件格式错误', 'error');
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+        
+        // 打开删除确认模态框
+        function openDeleteConfirmModal() {
+            if (websites.length === 0) {
+                showMessage('当前没有数据可清空', 'info');
+                return;
+            }
+            
+            document.getElementById('confirm-delete-modal').style.display = 'flex';
+        }
+        
+        // 关闭删除模态框
+        function closeDeleteModal() {
+            document.getElementById('confirm-delete-modal').style.display = 'none';
+        }
+        
+        // 删除所有网站
+        function deleteAllWebsites() {
+            websites = [];
+            renderWebsites();
+            closeDeleteModal();
+            
+            // 保存到GitHub（如果已配置）
+            if (githubConfig.repo && githubConfig.token) {
+                saveToGitHub();
+            }
+            
+            showMessage('所有网站数据已清空', 'success');
+        }
+        
+        // 显示消息
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            
+            // 5秒后自动隐藏成功/信息消息
+            if (type === 'success' || type === 'info') {
+                setTimeout(() => {
+                    messageEl.className = 'message';
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>

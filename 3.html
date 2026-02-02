@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导航管理后台</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            background: #6c757d;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        .back-link:hover {
+            background: #545b62;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        button.secondary {
+            background: #6c757d;
+        }
+        
+        button.secondary:hover {
+            background: #545b62;
+        }
+        
+        button.danger {
+            background: #dc3545;
+        }
+        
+        button.danger:hover {
+            background: #c82333;
+        }
+        
+        .websites-list {
+            margin-top: 20px;
+        }
+        
+        .website-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            background: #f9f9f9;
+        }
+        
+        .website-info {
+            flex-grow: 1;
+        }
+        
+        .website-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .website-url {
+            color: #666;
+            font-size: 14px;
+            word-break: break-all;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .message {
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .website-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .actions {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← 返回首页</a>
+        
+        <header>
+            <h1>导航管理后台</h1>
+            <p>添加、编辑或删除网站链接</p>
+        </header>
+        
+        <div id="message" class="message"></div>
+        
+        <div class="card">
+            <h2>添加新网站</h2>
+            <form id="add-form">
+                <div class="form-group">
+                    <label for="site-name">网站名称</label>
+                    <input type="text" id="site-name" placeholder="例如：GitHub" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="site-url">网站URL</label>
+                    <input type="url" id="site-url" placeholder="https://example.com" required>
+                </div>
+                
+                <button type="submit">添加网站</button>
+                <button type="button" id="load-sample" class="secondary">加载示例数据</button>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h2>当前网站列表</h2>
+            <div id="websites-list" class="websites-list">
+                <!-- 网站列表将动态生成 -->
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>GitHub仓库配置</h2>
+            <p style="margin-bottom: 15px;">配置您的GitHub仓库信息以保存更改</p>
+            
+            <div class="form-group">
+                <label for="repo-url">GitHub仓库地址</label>
+                <input type="text" id="repo-url" placeholder="username/repository">
+            </div>
+            
+            <div class="form-group">
+                <label for="github-token">GitHub访问令牌</label>
+                <input type="password" id="github-token" placeholder="需要 repo 权限">
+            </div>
+            
+            <button id="save-config" class="secondary">保存配置</button>
+            <button id="export-data" class="secondary">导出数据</button>
+        </div>
+    </div>
+
+    <script>
+        // 数据管理
+        let websites = [];
+        let githubConfig = {
+            repo: '',
+            token: ''
+        };
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载现有数据
+            loadData();
+            
+            // 加载配置
+            loadConfig();
+            
+            // 设置事件监听器
+            document.getElementById('add-form').addEventListener('submit', addWebsite);
+            document.getElementById('load-sample').addEventListener('click', loadSampleData);
+            document.getElementById('save-config').addEventListener('click', saveConfig);
+            document.getElementById('export-data').addEventListener('click', exportData);
+        });
+        
+        // 加载数据
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                const data = await response.json();
+                websites = data.websites || [];
+                renderWebsites();
+                showMessage('数据加载成功', 'success');
+            } catch (error) {
+                console.error('加载数据失败:', error);
+                showMessage('使用示例数据', 'error');
+                loadSampleData();
+            }
+        }
+        
+        // 渲染网站列表
+        function renderWebsites() {
+            const container = document.getElementById('websites-list');
+            
+            if (websites.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999;">暂无网站，请添加</p>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            websites.forEach((site, index) => {
+                const item = document.createElement('div');
+                item.className = 'website-item';
+                item.innerHTML = `
+                    <div class="website-info">
+                        <div class="website-name">${site.name}</div>
+                        <div class="website-url">${site.url}</div>
+                    </div>
+                    <div class="actions">
+                        <button class="danger" onclick="deleteWebsite(${index})">删除</button>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+        
+        // 添加网站
+        function addWebsite(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('site-name').value.trim();
+            const url = document.getElementById('site-url').value.trim();
+            
+            if (!name || !url) {
+                showMessage('请填写网站名称和URL', 'error');
+                return;
+            }
+            
+            // 验证URL格式
+            try {
+                new URL(url);
+            } catch {
+                showMessage('请输入有效的URL', 'error');
+                return;
+            }
+            
+            // 添加到列表
+            websites.push({name, url});
+            
+            // 清空表单
+            document.getElementById('add-form').reset();
+            
+            // 重新渲染列表
+            renderWebsites();
+            
+            // 保存到GitHub（如果已配置）
+            saveToGitHub();
+            
+            showMessage('网站已添加', 'success');
+        }
+        
+        // 删除网站
+        function deleteWebsite(index) {
+            if (confirm(`确定要删除 "${websites[index].name}" 吗？`)) {
+                websites.splice(index, 1);
+                renderWebsites();
+                saveToGitHub();
+                showMessage('网站已删除', 'success');
+            }
+        }
+        
+        // 加载示例数据
+        function loadSampleData() {
+            websites = [
+                {name: "GitHub", url: "https://github.com"},
+                {name: "Google", url: "https://google.com"},
+                {name: "MDN", url: "https://developer.mozilla.org"},
+                {name: "Cloudflare", url: "https://cloudflare.com"},
+                {name: "Stack Overflow", url: "https://stackoverflow.com"},
+                {name: "YouTube", url: "https://youtube.com"}
+            ];
+            
+            renderWebsites();
+            showMessage('已加载示例数据', 'success');
+        }
+        
+        // 保存配置
+        function saveConfig() {
+            const repo = document.getElementById('repo-url').value.trim();
+            const token = document.getElementById('github-token').value.trim();
+            
+            if (!repo) {
+                showMessage('请输入GitHub仓库地址', 'error');
+                return;
+            }
+            
+            githubConfig.repo = repo;
+            githubConfig.token = token;
+            
+            localStorage.setItem('navConfig', JSON.stringify(githubConfig));
+            showMessage('配置已保存', 'success');
+        }
+        
+        // 加载配置
+        function loadConfig() {
+            const savedConfig = localStorage.getItem('navConfig');
+            if (savedConfig) {
+                githubConfig = JSON.parse(savedConfig);
+                document.getElementById('repo-url').value = githubConfig.repo || '';
+                document.getElementById('github-token').value = githubConfig.token || '';
+            }
+        }
+        
+        // 保存到GitHub
+        async function saveToGitHub() {
+            if (!githubConfig.repo || !githubConfig.token) {
+                showMessage('未配置GitHub仓库，数据仅保存在本地', 'error');
+                return;
+            }
+            
+            try {
+                const data = {
+                    websites: websites,
+                    updated: new Date().toISOString()
+                };
+                
+                const content = JSON.stringify(data, null, 2);
+                const contentEncoded = btoa(unescape(encodeURIComponent(content)));
+                
+                // 首先获取文件的SHA（如果存在）
+                let sha = '';
+                try {
+                    const getUrl = `https://api.github.com/repos/${githubConfig.repo}/contents/data.json`;
+                    const getResponse = await fetch(getUrl, {
+                        headers: {
+                            'Authorization': `token ${githubConfig.token}`
+                        }
+                    });
+                    
+                    if (getResponse.ok) {
+                        const fileInfo = await getResponse.json();
+                        sha = fileInfo.sha;
+                    }
+                } catch (error) {
+                    console.log('文件可能不存在，将创建新文件');
+                }
+                
+                // 创建或更新文件
+                const url = `https://api.github.com/repos/${githubConfig.repo}/contents/data.json`;
+                const body = {
+                    message: `更新导航数据 ${new Date().toLocaleString()}`,
+                    content: contentEncoded,
+                    sha: sha || undefined
+                };
+                
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${githubConfig.token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+                
+                if (response.ok) {
+                    showMessage('数据已保存到GitHub', 'success');
+                } else {
+                    throw new Error('保存失败');
+                }
+            } catch (error) {
+                console.error('保存到GitHub失败:', error);
+                showMessage('保存到GitHub失败，数据仅保存在本地', 'error');
+            }
+        }
+        
+        // 导出数据
+        function exportData() {
+            const data = {
+                websites: websites,
+                updated: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([dataStr], {type: 'application/json'});
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nav-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showMessage('数据已导出', 'success');
+        }
+        
+        // 显示消息
+        function showMessage(text, type) {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            
+            // 3秒后自动隐藏
+            setTimeout(() => {
+                messageEl.className = 'message';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
